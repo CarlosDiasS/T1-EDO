@@ -5,13 +5,20 @@ h_vetor = [1,5,10]
 
 k = 1 # vai entrar dps
 
+def sol_analitica(ti,tf,dt,h0):
+    n = int((tf-ti)/dt)
+    t = np.linspace(ti,tf,n+1)
+    h = (-(k*t)/2 + np.sqrt(h0))**2
+    
+    return t,h
+
 def df(t,h):
     return -k*np.sqrt(h)
 
 def euler(ti, tf ,dt ,h0):
     n = int((tf-ti)/dt)
-    
     t = np.linspace(ti,tf,n+1)
+    
     h = np.zeros(n+1)
     
     h[0] = h0
@@ -32,9 +39,15 @@ def euler(ti, tf ,dt ,h0):
 
 def main():
     
+    
     for h0 in h_vetor:
-        t,h = euler(0,10, 0.01, h0)
-        plt.plot(t, h, label=f'h0={h0}')
+        t, h_num = euler(0, 10, 0.01, h0)
+        ta, h_ana = sol_analitica(0, 10, 0.01, h0)
+        
+        plt.plot(t, h_num, label=f'Euler h0={h0}')
+        plt.plot(ta, h_ana, '--', label=f'Analítica h0={h0}')
+        
+        #adicionar plot das medidas reais 
 
     plt.xlabel('tempo')
     plt.ylabel('altura')
@@ -43,3 +56,8 @@ def main():
     plt.show()
     
 main()
+
+# a medida que passo(dt) aumenta, o erro do metodo de euler aumenta, pois a aproximacao das derivadas se torna menos precisa
+# numericamente, encerra assim que o liquido esvazia mas, analiticamente, continua apos h=0, ou seja, assume valores negativos logo, nao fisicos
+
+# o erro de euler e linear, aumenta conforme o passo aumenta 
