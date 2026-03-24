@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 h_vetor = [1, 5, 10]
 
-k = 1  # vai entrar dps
+k = 0.1799  
 
 
 def sol_analitica(ti, tf, dt, h0):
